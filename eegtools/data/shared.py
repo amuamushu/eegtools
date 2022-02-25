@@ -137,12 +137,11 @@ def print_story(events, sample_rate):
   '''
   dic = dict(EVENTS)
   for (ei, start, end, optional) in events.T:
-    print '%s @ %.2fs (%.2fs long) -> %d.' % (
-      dic[ei].ljust(30), 
+    print('%s @ %.2fs (%.2fs long) -> %d.' % (dic[ei].ljust(30), 
       start / sample_rate, 
       (end - start) / sample_rate, 
       optional
-      )
+      ))
 
 
 def data_source():

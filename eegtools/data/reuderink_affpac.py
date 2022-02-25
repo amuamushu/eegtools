@@ -2,7 +2,7 @@
 import argparse, os.path
 import numpy as np
 from scipy import io
-from shared import Recording, data_source
+from eegtools.eegtools.data.shared import Recording, data_source
 
 __all__ = ['load', 'subjects', 'sessions']
 
@@ -101,7 +101,8 @@ def block_to_events(I):
 
 
 def load(subject_id, ds=data_source()):
-  matfile = ds.open(URL_TEMPLATE % subject_id)
+  # matfile = ds.open(URL_TEMPLATE % subject_id)
+  matfile = "./data/reuderink_affpac_s%d.mat" % subject_id
   mat = io.loadmat(matfile, struct_as_record=True)
 
   X = mat['X'].astype(np.float32)
