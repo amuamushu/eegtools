@@ -17,6 +17,30 @@ the data in a no-frills format.
 CACHE_VAR = 'EEGTOOLS_DATA_CACHE'
 CACHE_PATH = '~/eegtools_data'
 
+EVENTS = [
+  (1, 'index finger left hand key press'),
+  (2, 'index finger right hand key press'),
+  (3, 'index finger left hand key press error'),
+  (4, 'index finger right hand key press error'),
+  (5, 'visual screen freeze error'),
+  #(10, 'init_level'),
+  (11, 'next_level'),
+  (12, 'pacman avatar died'),
+  #(20, 'start_game'),
+  #(21, 'end_game'),
+  #(22, 'start_normal'),
+  #(23, 'end_normal'),
+  #(24, 'start_frustration'),
+  #(25, 'end_frustration'),
+  #(26, 'start_sam'),
+  #(27, 'end_sam'),
+  #(28, 'start_pause'),
+  #(29, 'end_pause'),
+  (90, 'keyboard error loss-of-control'),
+  (100, 'valence'),
+  (110, 'arousal'),
+  (120, 'dominance'),
+]
 
 class Recording:
   '''
@@ -86,7 +110,7 @@ class Recording:
     assert self.dt.size == n - 1, \
       'Temporal difference dt has shape %s, should be %s' % \
         (self.dt.shape, (n - 1,))
-    
+
     # check for matching events
     event_ids = set(np.unique(self.events[0]))
     event_lab_ids = set(self.event_lab.keys())
@@ -113,7 +137,7 @@ class Recording:
   @property
   def sample_rate(self):
     '''Estimate sample rate based on dt.'''
-    dt = self.dt 
+    dt = self.dt
     return 1./np.median(dt[np.isfinite(dt)])
 
 
@@ -122,13 +146,13 @@ class Recording:
     '''Return indices of starts of new continuous blocks'''
     return np.hstack([[0], 1 + np.flatnonzero(self.dt != 1./self.sample_rate)])
 
-  
+
   def __str__(self):
     return ('Recording "%(rid)s" (%(p)d channels x %(n)d samples) '
       'at %(fs).2f Hz in %(blocks)d continuous blocks, '
       'with %(nevents)d events in %(nevent_types)d classes.') % \
       dict(p=self.X.shape[0], n=self.X.shape[1], fs=self.sample_rate,
-        nevents=self.events.shape[1], nevent_types=len(self.event_lab), 
+        nevents=self.events.shape[1], nevent_types=len(self.event_lab),
         blocks=self.continuous_starts.size, rid=self.rec_id)
 
 
@@ -137,9 +161,9 @@ def print_story(events, sample_rate):
   '''
   dic = dict(EVENTS)
   for (ei, start, end, optional) in events.T:
-    print('%s @ %.2fs (%.2fs long) -> %d.' % (dic[ei].ljust(30), 
-      start / sample_rate, 
-      (end - start) / sample_rate, 
+    print('%s @ %.2fs (%.2fs long) -> %d.' % (dic[ei].ljust(30),
+      start / sample_rate,
+      (end - start) / sample_rate,
       optional
       ))
 
@@ -180,7 +204,7 @@ def make_cache_path(path):
 
         To change this path, set the %(env)s environment variable with
         the path of your preference. For example:
-        
+
             $ export %(env)s=%(cache_path)s
 
         That is all.
