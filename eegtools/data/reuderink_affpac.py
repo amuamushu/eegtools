@@ -34,19 +34,19 @@ EVENTS = [
   (3, 'index finger left hand key press error'),
   (4, 'index finger right hand key press error'),
   (5, 'visual screen freeze error'),
-  #(10, 'init_level'),
+  (10, 'init_level'),
   (11, 'next_level'),
   (12, 'pacman avatar died'),
-  #(20, 'start_game'),
-  #(21, 'end_game'),
-  #(22, 'start_normal'),
-  #(23, 'end_normal'),
-  #(24, 'start_frustration'),
-  #(25, 'end_frustration'),
-  #(26, 'start_sam'),
-  #(27, 'end_sam'),
-  #(28, 'start_pause'),
-  #(29, 'end_pause'),
+  (20, 'start_game'),
+  (21, 'end_game'),
+  (22, 'start_normal'),
+  (23, 'end_normal'),
+  (24, 'start_frustration'),
+  (25, 'end_frustration'),
+  (26, 'start_sam'),
+  (27, 'end_sam'),
+  (28, 'start_pause'),
+  (29, 'end_pause'),
   (90, 'keyboard error loss-of-control'),
   (100, 'valence'),
   (110, 'arousal'),
@@ -114,7 +114,7 @@ def load(subject_id, ds=data_source()):
   status_events = status_to_events(mat['Y'], sample_rate)
   block_events = block_to_events(mat['I'])
   events = np.hstack([
-    np.vstack([status_events, np.zeros((1, status_events.shape[1]), int)]), 
+    np.vstack([status_events, np.zeros((1, status_events.shape[1]), int)]),
     block_events
     ])
   events = events[:,np.argsort(events[1])]  # sort events on start time
@@ -124,6 +124,6 @@ def load(subject_id, ds=data_source()):
   folds = mat['I'][1][events[1]].astype(int)  # use block number as fold id
 
   # construct final record
-  return Recording(X=X, dt=dt, chan_lab=chan_lab, events=events, 
-    folds=folds, event_lab=event_lab, 
+  return Recording(X=X, dt=dt, chan_lab=chan_lab, events=events,
+    folds=folds, event_lab=event_lab,
     rec_id='reuderink-affpac-s%d' % subject_id, license=LICENSE)
