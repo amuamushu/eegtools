@@ -126,4 +126,5 @@ def load(subject_id, ds=data_source()):
   # construct final record
   return Recording(X=X, dt=dt, chan_lab=chan_lab, events=events,
     folds=folds, event_lab=event_lab,
-    rec_id='reuderink-affpac-s%d' % subject_id, license=LICENSE)
+    rec_id='reuderink-affpac-s%d' % subject_id, license=LICENSE,
+    markers=mat['Y'])

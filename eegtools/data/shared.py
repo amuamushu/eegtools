@@ -49,7 +49,7 @@ class Recording:
   recording, and an event matrix that annotates the samples in X.
   '''
   def __init__(self, X=None, dt=None, chan_lab=[], events=[], folds=None,
-    event_lab=[], rec_id='', license=''):
+    event_lab=[], rec_id='', license='', markers=None):
     '''
     Initializes the recording.
 
@@ -98,6 +98,7 @@ class Recording:
     self.event_lab = event_lab = dict(event_lab)
     self.rec_id = rec_id
     self.license = license
+    self.markers = markers
 
     if not self.rec_id:
       warnings.warn('No identifier (rec_id) provided for recording.')
